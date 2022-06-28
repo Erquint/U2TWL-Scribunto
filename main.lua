@@ -49,7 +49,7 @@ function select_table_column(full_table, column_header)
 end
 
 function construct_wikitable(game_table, header)
-  local out_string = '{| class="wikitable sortable"\n|+ ' .. header .. '\n|-\n'
+  local out_string = '{| class="wikitable sortable mw-collapsible" data-expandtext="Show table" data-collapsetext="Hide table"\n|+ ' .. header .. '\n|-\n'
   local tag = '! '
   for index, row in ipairs(game_table) do
     for index, cell in ipairs(row) do
@@ -109,6 +109,15 @@ local game_version_string = 'version unknown'
 local page_title = mw.title.getCurrentTitle()
 -- `page_title.text` returns string containing mixed-case page title without type and with spaces instead of underscores.
 local filter = page_title.text:lower()
+local table_header = '<div style="text-align:left;" class="mw-collapsible mw-collapsed" data-expandtext="Show legend" data-collapsetext="Hide legend">' ..
+  '<h2>Sigil Effects</h2>' ..
+  'Table built with assets from the game ' .. game_version_string .. '.<br />' ..
+  '<p class="mw-collapsible-content">' ..
+  'Question marks denote unimplemented effects.<br />' ..
+  '"Alt" rows represent its own resonant tier applicable when Rare Resonance quality is present on the item.<br />' ..
+  "Blanks denote doubling of charges for the strongest applicable effect.<br />" ..
+  "Otherwise, when none are applicable in the resonant tier, blanks denote fallthrough to the equivalent basic tier effect of the same element and level.<br />" ..
+  'Each level past 3, none detailed in the table, provides half of the charges as a bonus.' .. '</p></div>'
 
 function functions.build_table(frame)
   local game_table = parse_game_table(game_table_string)
@@ -116,7 +125,7 @@ function functions.build_table(frame)
     if frame.args.filter ~= 'true' then filter = frame.args.filter end
     game_table = select_table_column(game_table, filter)
   end
-  local wiki_table_string = construct_wikitable(game_table, game_version_string)
+  local wiki_table_string = construct_wikitable(game_table, table_header)
   return wiki_table_string
 end
 
