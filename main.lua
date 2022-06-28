@@ -121,13 +121,15 @@ local table_header = '<div style="text-align:left;" class="mw-collapsible mw-col
   '</p></div>'
 
 function functions.build_table(frame)
+  local appendix = ''
   local game_table = parse_game_table(game_table_string)
   if frame.args.filter ~= nil then
+    appendix = '[[Category:Sigil Effects]]\n'
     if frame.args.filter ~= 'true' then filter = frame.args.filter end
     game_table = select_table_column(game_table, filter)
   end
   local wiki_table_string = construct_wikitable(game_table, table_header)
-  return wiki_table_string .. '[[Category:Sigil Effects]]\n'
+  return wiki_table_string .. appendix
 end
 
 return functions
