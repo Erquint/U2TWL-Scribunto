@@ -80,7 +80,7 @@ AltSky1,,,,,,,,,,,StealthBow,NullifyMagic,SpellResistance,,,,,,Teleportation,,,,
 AltSky2,,,,,,LightningMissileStrike?,,,,,StealthBowMajor,AbsorbMagic,SpellWardArmor,,,,,LightningMissile,SummonGate,,,,,,
 AltSky3,LightningMissileStrike?,,,,,ForkedLightningMissileStrike?,,,,,,,AbsorbMagicArmor,,,,,ForkedLightning,SummonGateMajor,,,,,,]]
 
-function functions.construct(frame)
+function functions.category_table(frame)
   local game_table = parse_game_table(game_table_string)
   local wiki_table_string = construct_wikitable(game_table)
   return wiki_table_string
