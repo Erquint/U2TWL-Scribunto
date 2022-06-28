@@ -58,7 +58,7 @@ function construct_wikitable(game_table, header)
     out_string = out_string .. '|-\n'
     if tag == '! ' then tag = '| ' end
   end
-  out_string = out_string .. '|}'
+  out_string = out_string .. '|}\n'
   return out_string
 end
 
@@ -127,7 +127,7 @@ function functions.build_table(frame)
     game_table = select_table_column(game_table, filter)
   end
   local wiki_table_string = construct_wikitable(game_table, table_header)
-  return wiki_table_string
+  return wiki_table_string .. '[[Category:Sigil Effects]]\n'
 end
 
 return functions
