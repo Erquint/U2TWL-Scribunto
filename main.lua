@@ -22,7 +22,7 @@ function parse_game_table(game_string)
 end
 
 function construct_wikitable(game_table)
-  local out_string = [[{|
+  local out_string = [[{| class="wikitable sortable"
 |+ Sigil Effects
 |-
 ]]
@@ -88,3 +88,4 @@ function functions.category_table(frame)
 end
 
 return functions
+-- print(functions.category_table(nil))
