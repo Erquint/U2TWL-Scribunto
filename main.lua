@@ -31,19 +31,36 @@ function parse_game_table(game_string)
   return out_table
 end
 
+function select_table_column(full_table, column_header)
+  local out_table = {}
+  local header_index = 0
+  for index, row in ipairs(full_table) do
+    local out_row = {}
+    if header_index == 0 then
+      for index, cell in ipairs(row) do
+        if cell == column_header then header_index = index end
+      end
+    end
+    table.insert(out_row, row[1])
+    table.insert(out_row, row[header_index])
+    table.insert(out_table, out_row)
+  end
+  return out_table
+end
+
 function construct_wikitable(game_table, header)
   local out_string = '{| class="wikitable sortable"\n|+ ' .. header .. '\n|-\n'
   local tag = '! '
   for index, row in ipairs(game_table) do
-    for index, cell in ipairs(row) do out_string = out_string .. tag .. cell .. '\n' end
+    for index, cell in ipairs(row) do
+      out_string = out_string .. tag .. cell .. '\n'
+    end
     out_string = out_string .. '|-\n'
     if tag == '! ' then tag = '| ' end
   end
   out_string = out_string .. '|}'
   return out_string
 end
-
-local game_version_string = 'version unknown'
 
 local game_table_string = [[affordances,sword,swordShort,quarterstaff,axe,mace,spear,javelin,dagger,axeThrowing,clubThrowing,bow,shield,lightArmor,heavyArmor,ring,amulet,mask,wand,staff,rod,scepter,boots,cloak,lantern,clawRoot
 affordances,"attack, heavy attack, parry","attack, heavy attack, parry","attack, heavy attack, throw, parry","attack, heavy attack","attack, heavy attack","attack, heavy attack","attack, throw","attack, throw, parry","attack, throw","attack, throw","shoot, heavy shot",block,passive,passive,passive,passive,passive,cast attack spell,"cast command spell, possibly aura",cast spell,summoning spells,"passive travel effects, no charges","passive travel effects, no charges",passive/utility effects,
@@ -88,8 +105,15 @@ AltSky1,,,,,,,,,,,StealthBow,NullifyMagic,SpellResistance,,,,,,Teleportation,,,,
 AltSky2,,,,,,LightningMissileStrike?,,,,,StealthBowMajor,AbsorbMagic,SpellWardArmor,,,,,LightningMissile,SummonGate,,,,,,
 AltSky3,LightningMissileStrike?,,,,,ForkedLightningMissileStrike?,,,,,,,AbsorbMagicArmor,,,,,ForkedLightning,SummonGateMajor,,,,,,]]
 
+local page_title = mw.title.getCurrentTitle()
+-- `page_title.text` returns string containing mixed-case page title without type and with spaces instead of underscores.
+local game_version_string = 'version unknown'
+
 function functions.category_table(frame)
   local game_table = parse_game_table(game_table_string)
+  if frame.args[1] == 'filter' then
+    game_table = select_table_column(game_table, page_title.text)
+  end
   local wiki_table_string = construct_wikitable(game_table, game_version_string)
   return wiki_table_string
 end
