@@ -117,7 +117,8 @@ local table_header = '<div style="text-align:left;" class="mw-collapsible mw-col
   '"Alt" rows represent its own resonant tier applicable when Rare Resonance quality is present on the item.<br />' ..
   "Blanks denote doubling of charges for the strongest applicable effect.<br />" ..
   "Otherwise, when none are applicable in the resonant tier, blanks denote fallthrough to the equivalent basic tier effect of the same element and level.<br />" ..
-  'Each level past 3, none detailed in the table, provides half of the charges as a bonus.' .. '</p></div>'
+  'Each level past 3, none detailed in the table, provides half of the charges as a bonus.' ..
+  '</p></div>'
 
 function functions.build_table(frame)
   local game_table = parse_game_table(game_table_string)
