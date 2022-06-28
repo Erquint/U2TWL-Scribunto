@@ -6,15 +6,25 @@ function string_split(in_string, separator)
   if in_string:sub(-1) ~= separator then
     in_string = in_string .. separator
   end
-  return in_string:gmatch("(.-)" .. separator)
+  return in_string:gmatch('(.-)' .. separator)
 end
 
 function parse_game_table(game_string)
   local out_table = {}
-  for line in string_split(game_string, "\n") do
+  for line in string_split(game_string, '\n') do
     local row = {}
-    for cell in string_split(line, ",") do
-      table.insert(row, cell)
+    for cell in string_split(line, ',') do
+      if #row > 0 and row[#row]:sub(1, 1) == '"' and row[#row]:sub(-1) ~= '"' then
+        row[#row] = row[#row] .. ',' .. cell
+      else
+        if #row > 0 and row[#row]:sub(-1) == '"' then
+          row[#row] = row[#row]:sub(2, -2)
+        end
+        table.insert(row, cell)
+      end
+    end
+    if #out_table > 0 then
+      for i = 1, #out_table[1] - #row do table.insert(row, '') end
     end
     table.insert(out_table, row)
   end
@@ -22,20 +32,18 @@ function parse_game_table(game_string)
 end
 
 function construct_wikitable(game_table, header)
-  local out_string = '{| class="wikitable sortable"\n|+' .. header .. '|-'
-  local tag = "! "
+  local out_string = '{| class="wikitable sortable"\n|+ ' .. header .. '\n|-\n'
+  local tag = '! '
   for index, row in ipairs(game_table) do
-    for index, cell in ipairs(row) do
-      out_string = out_string .. tag .. cell .. "\n"
-    end
-    out_string = out_string .. "|-\n"
-    if tag == "! " then tag = "| " end
+    for index, cell in ipairs(row) do out_string = out_string .. tag .. cell .. '\n' end
+    out_string = out_string .. '|-\n'
+    if tag == '! ' then tag = '| ' end
   end
-  out_string = out_string .. "|}"
+  out_string = out_string .. '|}'
   return out_string
 end
 
-local game_version_string = "version unknown"
+local game_version_string = 'version unknown'
 
 local game_table_string = [[affordances,sword,swordShort,quarterstaff,axe,mace,spear,javelin,dagger,axeThrowing,clubThrowing,bow,shield,lightArmor,heavyArmor,ring,amulet,mask,wand,staff,rod,scepter,boots,cloak,lantern,clawRoot
 affordances,"attack, heavy attack, parry","attack, heavy attack, parry","attack, heavy attack, throw, parry","attack, heavy attack","attack, heavy attack","attack, heavy attack","attack, throw","attack, throw, parry","attack, throw","attack, throw","shoot, heavy shot",block,passive,passive,passive,passive,passive,cast attack spell,"cast command spell, possibly aura",cast spell,summoning spells,"passive travel effects, no charges","passive travel effects, no charges",passive/utility effects,
