@@ -105,14 +105,16 @@ AltSky1,,,,,,,,,,,StealthBow,NullifyMagic,SpellResistance,,,,,,Teleportation,,,,
 AltSky2,,,,,,LightningMissileStrike?,,,,,StealthBowMajor,AbsorbMagic,SpellWardArmor,,,,,LightningMissile,SummonGate,,,,,,
 AltSky3,LightningMissileStrike?,,,,,ForkedLightningMissileStrike?,,,,,,,AbsorbMagicArmor,,,,,ForkedLightning,SummonGateMajor,,,,,,]]
 
+local game_version_string = 'version unknown'
 local page_title = mw.title.getCurrentTitle()
 -- `page_title.text` returns string containing mixed-case page title without type and with spaces instead of underscores.
-local game_version_string = 'version unknown'
+local filter = page_title.text:lower()
 
 function functions.category_table(frame)
   local game_table = parse_game_table(game_table_string)
-  if frame.args[1] == 'filter' then
-    game_table = select_table_column(game_table, page_title.text)
+  if frame.args.filter ~= nil then
+    if frame.args.filter ~= 'true' then filter = frame.args.filter end
+    game_table = select_table_column(game_table, filter)
   end
   local wiki_table_string = construct_wikitable(game_table, game_version_string)
   return wiki_table_string
