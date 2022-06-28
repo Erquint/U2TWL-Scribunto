@@ -85,3 +85,5 @@ function functions.construct(frame)
   local wiki_table_string = construct_wikitable(game_table)
   return wiki_table_string
 end
+
+return functions
