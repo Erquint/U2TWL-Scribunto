@@ -21,11 +21,8 @@ function parse_game_table(game_string)
   return out_table
 end
 
-function construct_wikitable(game_table)
-  local out_string = [[{| class="wikitable sortable"
-|+ Sigil Effects
-|-
-]]
+function construct_wikitable(game_table, header)
+  local out_string = '{| class="wikitable sortable"\n|+' .. header .. '|-'
   local tag = "! "
   for index, row in ipairs(game_table) do
     for index, cell in ipairs(row) do
@@ -37,6 +34,8 @@ function construct_wikitable(game_table)
   out_string = out_string .. "|}"
   return out_string
 end
+
+local game_version_string = "version unknown"
 
 local game_table_string = [[affordances,sword,swordShort,quarterstaff,axe,mace,spear,javelin,dagger,axeThrowing,clubThrowing,bow,shield,lightArmor,heavyArmor,ring,amulet,mask,wand,staff,rod,scepter,boots,cloak,lantern,clawRoot
 affordances,"attack, heavy attack, parry","attack, heavy attack, parry","attack, heavy attack, throw, parry","attack, heavy attack","attack, heavy attack","attack, heavy attack","attack, throw","attack, throw, parry","attack, throw","attack, throw","shoot, heavy shot",block,passive,passive,passive,passive,passive,cast attack spell,"cast command spell, possibly aura",cast spell,summoning spells,"passive travel effects, no charges","passive travel effects, no charges",passive/utility effects,
@@ -83,7 +82,7 @@ AltSky3,LightningMissileStrike?,,,,,ForkedLightningMissileStrike?,,,,,,,AbsorbMa
 
 function functions.category_table(frame)
   local game_table = parse_game_table(game_table_string)
-  local wiki_table_string = construct_wikitable(game_table)
+  local wiki_table_string = construct_wikitable(game_table, game_version_string)
   return wiki_table_string
 end
 
