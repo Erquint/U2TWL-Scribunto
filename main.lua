@@ -1,11 +1,4 @@
-local tbl = {}
-
-function tp(in_table)
-  print("Index", "Value")
-  for index, value in ipairs(in_table) do
-    print(index, value)
-  end
-end
+local functions = {}
 
 function string_split(in_string, separator)
   if in_string:sub(-1) ~= separator then
@@ -43,12 +36,6 @@ function construct_wikitable(game_table)
   out_string = out_string .. "|}"
   return out_string
 end
-
---[[
-function tbl.hello(frame)
-  return "Hello, world!"
-end
---]]
 
 local game_table_string = [[affordances,sword,swordShort,quarterstaff,axe,mace,spear,javelin,dagger,axeThrowing,clubThrowing,bow,shield,lightArmor,heavyArmor,ring,amulet,mask,wand,staff,rod,scepter,boots,cloak,lantern,clawRoot
 affordances,"attack, heavy attack, parry","attack, heavy attack, parry","attack, heavy attack, throw, parry","attack, heavy attack","attack, heavy attack","attack, heavy attack","attack, throw","attack, throw, parry","attack, throw","attack, throw","shoot, heavy shot",block,passive,passive,passive,passive,passive,cast attack spell,"cast command spell, possibly aura",cast spell,summoning spells,"passive travel effects, no charges","passive travel effects, no charges",passive/utility effects,
@@ -93,8 +80,8 @@ AltSky1,,,,,,,,,,,StealthBow,NullifyMagic,SpellResistance,,,,,,Teleportation,,,,
 AltSky2,,,,,,LightningMissileStrike?,,,,,StealthBowMajor,AbsorbMagic,SpellWardArmor,,,,,LightningMissile,SummonGate,,,,,,
 AltSky3,LightningMissileStrike?,,,,,ForkedLightningMissileStrike?,,,,,,,AbsorbMagicArmor,,,,,ForkedLightning,SummonGateMajor,,,,,,]]
 
-local game_table = parse_game_table(game_table_string)
-local wiki_table_string = construct_wikitable(game_table)
-print(wiki_table_string)
--- tp(game_table)
-do return end
+function functions.construct(frame)
+  local game_table = parse_game_table(game_table_string)
+  local wiki_table_string = construct_wikitable(game_table)
+  return wiki_table_string
+end
