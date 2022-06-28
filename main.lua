@@ -1,3 +1,5 @@
+-- https://github.com/Erquint/U2TWL-Scribunto/tree/scribunto
+
 local functions = {}
 
 function string_split(in_string, separator)
@@ -28,7 +30,6 @@ function construct_wikitable(game_table)
   for index, row in ipairs(game_table) do
     for index, cell in ipairs(row) do
       out_string = out_string .. tag .. cell .. "\n"
-      -- out_string = out_string .. "| " .. cell .. "\n"
     end
     out_string = out_string .. "|-\n"
     if tag == "! " then tag = "| " end
