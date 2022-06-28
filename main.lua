@@ -110,7 +110,7 @@ local page_title = mw.title.getCurrentTitle()
 -- `page_title.text` returns string containing mixed-case page title without type and with spaces instead of underscores.
 local filter = page_title.text:lower()
 
-function functions.category_table(frame)
+function functions.build_table(frame)
   local game_table = parse_game_table(game_table_string)
   if frame.args.filter ~= nil then
     if frame.args.filter ~= 'true' then filter = frame.args.filter end
